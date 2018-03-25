@@ -31,7 +31,7 @@ public class KorisnikController {
     }
 
     @RequestMapping(
-            value = "/login/{email}",
+            value = "/login/{email:.+}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Korisnik> login(@PathVariable String email){
