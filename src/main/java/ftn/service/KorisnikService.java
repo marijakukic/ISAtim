@@ -19,4 +19,9 @@ public class KorisnikService {
         Korisnik korisnik = korisnikRepository.findByEmail(email);
         return  korisnik;
     }
+
+
+    public Integer setActivated(Boolean potvrdjenMail, String email) {
+        return korisnikRepository.setActivatedForKorisnik(potvrdjenMail, email);
+    }
 }

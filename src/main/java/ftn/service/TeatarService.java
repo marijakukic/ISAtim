@@ -19,6 +19,7 @@ public class TeatarService {
 
     public Collection<Teatar> getAllBioskop(String tip){
         return teatarRepository.findByTip(tip);
-
    }
+
+
 }
