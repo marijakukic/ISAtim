@@ -60,4 +60,20 @@ public class KorisnikController {
 
         return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
     }
+
+    @RequestMapping(
+            value = "/getUserDetails/{userId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Korisnik> getUserDetails(@PathVariable Long userId){
+
+        //Long id = user.getId();
+        System.out.println("Usla u userDetails kontroler");
+        Korisnik korisnik = korisnikService.findUserDetails(userId);
+
+
+        System.out.println("Aaaaaaaaaa" + korisnik.email + korisnik.lozinka);
+
+        return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
+    }
 }

@@ -24,4 +24,8 @@ public class KorisnikService {
     public Integer setActivated(Boolean potvrdjenMail, String email) {
         return korisnikRepository.setActivatedForKorisnik(potvrdjenMail, email);
     }
+
+    public Korisnik findUserDetails(Long id) {
+        return korisnikRepository.findOne(id);
+    }
 }
