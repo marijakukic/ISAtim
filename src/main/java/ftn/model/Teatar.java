@@ -16,9 +16,18 @@ public class Teatar implements Serializable {
     public String naziv;
     public String adresa;
     public String promotivniOpis;
+    public String tip;
 
     Teatar(){
 
+    }
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
     }
 
     public Long getId() {
