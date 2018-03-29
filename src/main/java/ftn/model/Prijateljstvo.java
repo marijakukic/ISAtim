@@ -16,6 +16,7 @@ public class Prijateljstvo implements Serializable {
     public Long idKorisnik1;
     public Long idKorisnik2;
     public boolean prijatelji;
+    public Long zahtevPoslao;
 
     public Prijateljstvo(Long idKorisnik1, Long idKorisnik2) {
         this.idKorisnik1 = idKorisnik1;
@@ -53,5 +54,13 @@ public class Prijateljstvo implements Serializable {
 
     public void setPrijatelji(boolean prijatelji) {
         this.prijatelji = prijatelji;
+    }
+
+    public Long getZahtevPoslao() {
+        return zahtevPoslao;
+    }
+
+    public void setZahtevPoslao(Long zahtevPoslao) {
+        this.zahtevPoslao = zahtevPoslao;
     }
 }
