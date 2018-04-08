@@ -1,9 +1,8 @@
 package ftn.controller;
 
 import com.gs.collections.impl.map.mutable.primitive.SynchronizedShortObjectMap;
-import ftn.model.Korisnik;
-import ftn.model.Teatar;
-import ftn.service.TeatarService;
+import ftn.model.*;
+import ftn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +17,22 @@ import java.util.Collection;
 public class TeatarController {
 
     @Autowired
-    TeatarService teatarService;
+    private TeatarService teatarService;
+
+    @Autowired
+    private SalaService salaService;
+
+    @Autowired
+    private FilmService filmService;
+
+    @Autowired
+    private ProjekcijaService projekcijaService;
+
+    @Autowired
+    private SegmentService segmentService;
+
+    @Autowired
+    private MestoService mestoService;
 
     @RequestMapping(
             value = "/registrationTeatar",
@@ -58,5 +72,65 @@ public class TeatarController {
         Collection<Teatar> pozorista = teatarService.getAllBioskop(tip);
         return new ResponseEntity<Collection<Teatar>>(pozorista, HttpStatus.OK);
     }
+
+
+    @RequestMapping(
+            value = "/sala/saveSala",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Sala> registration (@RequestBody Sala sala){
+
+        Sala sala1 = salaService.save(sala);
+
+        return new ResponseEntity<Sala>(sala1, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/film/saveFilm",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Film> registration (@RequestBody Film film){
+
+        Film film1 = filmService.save(film);
+
+        return new ResponseEntity<Film>(film1, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/projekcija/saveProjekcija",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Projekcija> registration (@RequestBody Projekcija projekcija){
+
+        Projekcija projekcija1 = projekcijaService.save(projekcija);
+
+        return new ResponseEntity<Projekcija>(projekcija1, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/segment/saveSegment",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Segment> registration (@RequestBody Segment segment){
+
+        Segment segment1 = segmentService.save(segment);
+
+        return new ResponseEntity<Segment>(segment1, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/mesto/saveMesto",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Mesto> registration (@RequestBody Mesto mesto){
+
+        Mesto mesto1 = mestoService.save(mesto);
+
+        return new ResponseEntity<Mesto>(mesto1, HttpStatus.OK);
+    }
+
+
+
 
 }
