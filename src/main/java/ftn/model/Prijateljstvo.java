@@ -13,16 +13,22 @@ public class Prijateljstvo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Long idKorisnik1;
-    public Long idKorisnik2;
-    public boolean prijatelji;
-    public Long zahtevPoslao;
+    private Long idKorisnik1;
+    private Long idKorisnik2;
+    private Boolean prijatelji;
+    private Long zahtevPoslao;
+    private Boolean poslatZahtev;
 
-    public Prijateljstvo(Long idKorisnik1, Long idKorisnik2) {
+
+    public  Prijateljstvo(){}
+
+    public Prijateljstvo(Long idKorisnik1, Long idKorisnik2, Boolean prijatelji, Long zahtevPoslao, Boolean poslatZahtev) {
         this.idKorisnik1 = idKorisnik1;
         this.idKorisnik2 = idKorisnik2;
+        this.prijatelji = prijatelji;
+        this.zahtevPoslao = zahtevPoslao;
+        this.poslatZahtev = poslatZahtev;
     }
-    public  Prijateljstvo(){}
 
     public Long getId() {
         return id;
@@ -48,11 +54,11 @@ public class Prijateljstvo implements Serializable {
         this.idKorisnik2 = idKorisnik2;
     }
 
-    public boolean isPrijatelji() {
+    public Boolean getPrijatelji() {
         return prijatelji;
     }
 
-    public void setPrijatelji(boolean prijatelji) {
+    public void setPrijatelji(Boolean prijatelji) {
         this.prijatelji = prijatelji;
     }
 
@@ -62,5 +68,13 @@ public class Prijateljstvo implements Serializable {
 
     public void setZahtevPoslao(Long zahtevPoslao) {
         this.zahtevPoslao = zahtevPoslao;
+    }
+
+    public Boolean getPoslatZahtev() {
+        return poslatZahtev;
+    }
+
+    public void setPoslatZahtev(Boolean poslatZahtev) {
+        this.poslatZahtev = poslatZahtev;
     }
 }

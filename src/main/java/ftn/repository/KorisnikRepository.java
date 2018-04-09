@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 
 public interface KorisnikRepository extends JpaRepository<Korisnik, Long>{
 
@@ -14,6 +15,14 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long>{
     @Transactional
     @Modifying
     @Query("update Korisnik k set k.potvrdjenMail = ?1 where k.email = ?2")
-    public Integer setActivatedForKorisnik(Boolean potvrdjenMail, String email);
+    Integer setActivatedForKorisnik(Boolean potvrdjenMail, String email);
+
+    Collection<Korisnik> findByIdNot(Long id);
+
+    Collection<Korisnik> findByIdNotAndIme(Long id, String ime);
+
+    Collection<Korisnik> findByIdNotAndPrezime(Long id, String prezime);
+
+    Collection<Korisnik> findByIdNotAndImeAndPrezime(Long id, String ime, String prezime);
 
 }

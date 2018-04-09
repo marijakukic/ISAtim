@@ -3,14 +3,17 @@ package ftn.controller;
 
 import ftn.model.Korisnik;
 import ftn.model.MailSending;
+import ftn.service.PrijateljstvoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ftn.service.KorisnikService;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -18,7 +21,10 @@ import java.util.Collection;
 public class KorisnikController {
 
     @Autowired
-    KorisnikService korisnikService;
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private PrijateljstvoService prijateljstvoService;
 
     @RequestMapping(
             value = "/registration",
@@ -77,6 +83,51 @@ public class KorisnikController {
 
         return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
     }
+
+
+    @RequestMapping(
+            value = "/getAllUsersExceptMe/{userId}/{ime}/{prezime}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<Korisnik>> getAllUsersExceptMe(@PathVariable Long userId, @PathVariable String ime, @PathVariable String prezime){
+
+        ArrayList<Korisnik> korisnici = new ArrayList<>();
+        if ("undefined".equals(ime)) {
+            ime = "";
+        }
+        if ("undefined".equals(prezime)) {
+            prezime = "";
+        }
+
+        if (!StringUtils.isEmpty(ime) && !StringUtils.isEmpty(prezime)) {
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMeByNameAndSurname(userId, ime, prezime);
+        }
+        else if (!StringUtils.isEmpty(ime) && StringUtils.isEmpty(prezime)) {
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMeByName(userId, ime);
+        }
+        else if (StringUtils.isEmpty(ime) && !StringUtils.isEmpty(prezime)) {
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMeBySurname(userId, prezime);
+        }
+        else {
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMe(userId);
+        }
+
+        ArrayList<Korisnik> moguciKorisnici = new ArrayList<>();
+        for (Korisnik korisnik : korisnici) {
+
+            if (prijateljstvoService.vecPrijatelji(userId, korisnik.getId()).size() == 1) {
+               continue;
+            }
+            else {
+                moguciKorisnici.add(korisnik);
+            }
+        }
+
+        return new ResponseEntity<>(moguciKorisnici,HttpStatus.OK);
+    }
+
+
+
 
 
 }
