@@ -13,6 +13,8 @@ public class KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
 
+    public static Korisnik aktivanKorisnik;
+
     public void save(Korisnik korisnik){
         korisnikRepository.save(korisnik);
     }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ftn.service.KorisnikService;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,6 +26,27 @@ public class KorisnikController {
 
     @Autowired
     private PrijateljstvoService prijateljstvoService;
+
+
+    @RequestMapping(
+            value = "/setActiveUser/{userId}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Korisnik> setActiveUser(@PathVariable Long userId){
+        Korisnik aktivanKorisnik = korisnikService.findUserDetails(userId);
+        KorisnikService.aktivanKorisnik = aktivanKorisnik;
+        return new ResponseEntity<>(aktivanKorisnik, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/getActiveUser",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Korisnik> getActiveUser(){
+        return new ResponseEntity<>(KorisnikService.aktivanKorisnik, HttpStatus.OK);
+    }
 
     @RequestMapping(
             value = "/registration",
