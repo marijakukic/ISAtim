@@ -16,4 +16,6 @@ public class MestoService {
         return mestoRepository.save(mesto);
     }
 
+    public void deleteMesto(Long id) { mestoRepository.delete(id); }
+
 }

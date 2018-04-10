@@ -120,6 +120,17 @@ public class TeatarController {
     }
 
     @RequestMapping(
+            value = "/segment/getAllSalaSegments/{salaId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<Segment>> getAllSalaSegments (@PathVariable Long salaId){
+
+        Collection<Segment> segments = segmentService.findBySalaId(salaId);
+
+        return new ResponseEntity<>(segments, HttpStatus.OK);
+    }
+
+    @RequestMapping(
             value = "/mesto/saveMesto",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -129,6 +140,20 @@ public class TeatarController {
 
         return new ResponseEntity<Mesto>(mesto1, HttpStatus.OK);
     }
+
+    @RequestMapping(
+            value = "/mesto/deleteMesto/{id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteMesto (@PathVariable Long id){
+
+        mestoService.deleteMesto(id);
+
+        return new ResponseEntity<>("Uspesno obrisano mesto", HttpStatus.OK);
+    }
+
+
+
 
 
 
