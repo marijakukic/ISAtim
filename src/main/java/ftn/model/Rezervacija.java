@@ -20,6 +20,8 @@ public class Rezervacija implements Serializable {
     @ManyToOne
     private Mesto mesto;
 
+    private Long korisnikId;
+
     public Rezervacija() {
 
     }
@@ -62,5 +64,13 @@ public class Rezervacija implements Serializable {
 
     public void setMesto(Mesto mesto) {
         this.mesto = mesto;
+    }
+
+    public Long getKorisnikId() {
+        return korisnikId;
+    }
+
+    public void setKorisnikId(Long korisnikId) {
+        this.korisnikId = korisnikId;
     }
 }

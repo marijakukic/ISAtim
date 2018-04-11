@@ -11,10 +11,14 @@ import java.util.Collection;
 public class TeatarService {
 
     @Autowired
-    TeatarRepository teatarRepository;
+    private TeatarRepository teatarRepository;
 
     public void save(Teatar teatar){
         teatarRepository.save(teatar);
+    }
+
+    public Teatar findOne(Long id){
+        return  teatarRepository.findOne(id);
     }
 
     public Collection<Teatar> getAllBioskop(String tip){

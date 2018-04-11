@@ -14,6 +14,14 @@ public class RezervacijaService {
     @Autowired
     private RezervacijaRepository rezervacijaRepository;
 
+    public Rezervacija save(Rezervacija rezervacija) {
+        return rezervacijaRepository.save(rezervacija);
+    }
+
+    public void delete(Long id) {
+        rezervacijaRepository.delete(id);
+    }
+
     public Rezervacija findOne(Long id) {
         return rezervacijaRepository.findOne(id);
     }

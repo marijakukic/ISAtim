@@ -1,16 +1,48 @@
 package ftn.dto;
 
 import ftn.model.Film;
+import ftn.model.Termin;
+
+import javax.persistence.*;
+import java.util.Collection;
 
 public class ProjekcijaDTO {
+
+    private Long id;
+
+    private Long teatarId;
 
     private Film film;
 
     private String datum;
 
-    private String termin;
+    private Collection<Termin> termini;
 
     public ProjekcijaDTO() {
+    }
+
+    public ProjekcijaDTO(Long id, Long teatarId, Film film, String datum, Collection<Termin> termini) {
+        this.id = id;
+        this.teatarId = teatarId;
+        this.film = film;
+        this.datum = datum;
+        this.termini = termini;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getTeatarId() {
+        return teatarId;
+    }
+
+    public void setTeatarId(Long teatarId) {
+        this.teatarId = teatarId;
     }
 
     public Film getFilm() {
@@ -29,11 +61,11 @@ public class ProjekcijaDTO {
         this.datum = datum;
     }
 
-    public String getTermin() {
-        return termin;
+    public Collection<Termin> getTermini() {
+        return termini;
     }
 
-    public void setTermin(String termin) {
-        this.termin = termin;
+    public void setTermini(Collection<Termin> termini) {
+        this.termini = termini;
     }
 }

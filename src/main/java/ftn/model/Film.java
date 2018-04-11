@@ -1,10 +1,10 @@
 package ftn.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 public class Film implements Serializable {
@@ -29,5 +29,78 @@ public class Film implements Serializable {
 
     private String kratakOpis;
 
+    public Film() {
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNaziv() {
+        return naziv;
+    }
+
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
+    }
+
+    public String getSpisakGlumaca() {
+        return spisakGlumaca;
+    }
+
+    public void setSpisakGlumaca(String spisakGlumaca) {
+        this.spisakGlumaca = spisakGlumaca;
+    }
+
+    public String getZanr() {
+        return zanr;
+    }
+
+    public void setZanr(String zanr) {
+        this.zanr = zanr;
+    }
+
+    public String getImeReditelja() {
+        return imeReditelja;
+    }
+
+    public void setImeReditelja(String imeReditelja) {
+        this.imeReditelja = imeReditelja;
+    }
+
+    public String getTrajanje() {
+        return trajanje;
+    }
+
+    public void setTrajanje(String trajanje) {
+        this.trajanje = trajanje;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public Double getProsecnaOcena() {
+        return prosecnaOcena;
+    }
+
+    public void setProsecnaOcena(Double prosecnaOcena) {
+        this.prosecnaOcena = prosecnaOcena;
+    }
+
+    public String getKratakOpis() {
+        return kratakOpis;
+    }
+
+    public void setKratakOpis(String kratakOpis) {
+        this.kratakOpis = kratakOpis;
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +35,15 @@ public class ProjekcijaController {
     @Autowired
     private SegmentService segmentService;
 
+    @Autowired
+    private MestoService mestoService;
+
+    @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private TeatarService teatarService;
+
     @RequestMapping(
             value    = "/projekcija/test",
             method   = RequestMethod.GET,
@@ -49,11 +60,17 @@ public class ProjekcijaController {
             value = "/projekcija/getProjectionsForDate/{teatarId}/{date}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<Projekcija>> getProjectionsForDate(@PathVariable Long teatarId,@PathVariable String date){
+    public ResponseEntity<ArrayList<ProjekcijaDTO>> getProjectionsForDate(@PathVariable Long teatarId,@PathVariable String date) throws ParseException {
 
-        Collection<Projekcija> projekcije = projekcijaService.findByTeatarIdAndDatum(teatarId, date);
+        String formattedDate = DateService.getFormattedDate(date);
+        ArrayList<Projekcija> projekcije = (ArrayList<Projekcija>) projekcijaService.findByTeatarIdAndDatum(teatarId, formattedDate);
 
-        return new ResponseEntity<>(projekcije, HttpStatus.OK);
+        ArrayList<ProjekcijaDTO> projekcijeDTO = new ArrayList<>();
+        for (Projekcija projekcija : projekcije) {
+            projekcijeDTO.add(new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini()));
+        }
+
+        return new ResponseEntity<>(projekcijeDTO, HttpStatus.OK);
     }
 
 
@@ -80,6 +97,48 @@ public class ProjekcijaController {
         }
 
         return new ResponseEntity<>(mestaDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/rezervacija/saveRezervacija/{terminId}/{mestoId}/{korisnikId}/{poziv}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Rezervacija> registration (@PathVariable Long terminId, @PathVariable Long mestoId, @PathVariable Long korisnikId, @PathVariable Boolean poziv) throws MessagingException {
+
+        Termin termin = terminService.findOne(terminId);
+        Mesto mesto = mestoService.fincOne(mestoId);
+        Rezervacija rezervacija = new Rezervacija();
+        rezervacija.setTermin(termin);
+        rezervacija.setMesto(mesto);
+        rezervacija.setKorisnikId(korisnikId);
+        rezervacija.setProjekcijaId(termin.getProjekcija().getId());
+        rezervacija.setTeatarId(termin.getProjekcija().getTeatarId());
+
+        Rezervacija savedRezervacija = rezervacijaService.save(rezervacija);
+
+        Korisnik korisnik = korisnikService.findUserDetails(savedRezervacija.getKorisnikId());
+        Teatar teatar = teatarService.findOne(savedRezervacija.getTeatarId());
+        if (poziv) {
+            MailSending.sendMail("boxboux@gmail.com", "Otkazivanje rezervacije", "http://localhost:9000/rezervacija/otkaziRezervaciju/"+savedRezervacija.getId());
+        }
+        else {
+            MailSending.sendMail("boxboux@gmail.com", "Informacije o rezervaciji", "Rezervisali ste mesto: " + savedRezervacija.getMesto().getNaziv() + " u " + teatar.getNaziv() );
+
+        }
+
+        return new ResponseEntity<>(savedRezervacija, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/rezervacija/otkaziRezervaciju/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> otkaziRezervaciju(@PathVariable Long id){
+
+        rezervacijaService.delete(id);
+
+        return new ResponseEntity<>("Otkazana rezervacija!", HttpStatus.OK);
     }
 
 
