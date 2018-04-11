@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -28,6 +29,10 @@ public class ProjekcijaService {
         TypedQuery<Korisnik> query = entityManager.createQuery("select k from Korisnik k", Korisnik.class);
         List<Korisnik> korisnikList = query.getResultList();
         return korisnikList;
+    }
+
+    public Collection<Projekcija> findByTeatarIdAndDatum(Long id, String datum) {
+        return projekcijaRepository.findByTeatarIdAndDatum(id, datum);
     }
 
 }

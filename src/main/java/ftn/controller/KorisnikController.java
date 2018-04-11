@@ -111,7 +111,7 @@ public class KorisnikController {
             value = "/getAllUsersExceptMe/{userId}/{ime}/{prezime}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<Korisnik>> getAllUsersExceptMe(@PathVariable Long userId, @PathVariable String ime, @PathVariable String prezime){
+    public ResponseEntity<ArrayList<Korisnik>> getAllUsersExceptMe(@PathVariable Long userId, @PathVariable String ime, @PathVariable String prezime){
 
         ArrayList<Korisnik> korisnici = new ArrayList<>();
         if ("undefined".equals(ime)) {

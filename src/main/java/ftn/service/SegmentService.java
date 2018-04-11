@@ -17,6 +17,10 @@ public class SegmentService {
         return segmentRepository.save(segment);
     }
 
+    public Segment findOne(Long id) {
+        return segmentRepository.findOne(id);
+    }
+
     public Collection<Segment> findBySalaId(Long salaId) {
         return segmentRepository.findBySalaId(salaId);
     }

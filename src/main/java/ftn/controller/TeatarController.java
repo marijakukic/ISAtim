@@ -152,6 +152,17 @@ public class TeatarController {
         return new ResponseEntity<>("Uspesno obrisano mesto", HttpStatus.OK);
     }
 
+    @RequestMapping(
+            value = "/segment/getAllSalaSeats/{salaId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<Mesto>> getAllSalaSeats(@PathVariable Long salaId){
+
+        Collection<Mesto> seats = salaService.getAllSalaSeats(salaId);
+
+        return new ResponseEntity<>(seats, HttpStatus.OK);
+    }
+
 
 
 

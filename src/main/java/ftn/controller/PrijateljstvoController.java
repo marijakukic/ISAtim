@@ -29,7 +29,7 @@ public class PrijateljstvoController {
             value = "/getFriendsList/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<PrijateljstvoDTO>> listaPrijatelja(@PathVariable Long userId){
+    public ResponseEntity<ArrayList<PrijateljstvoDTO>> listaPrijatelja(@PathVariable Long userId){
 
         ArrayList<Prijateljstvo> listaPrijatelja = (ArrayList<Prijateljstvo>) prijateljstvoService.listaPrijatelja(userId);
         ArrayList<PrijateljstvoDTO> listaPrijateljaDTO = new ArrayList<PrijateljstvoDTO>();
