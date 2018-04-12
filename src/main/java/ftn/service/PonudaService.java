@@ -5,6 +5,8 @@ import ftn.repository.PonudaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class PonudaService {
 
@@ -25,6 +27,14 @@ public class PonudaService {
 
     public Ponuda findByKorisnikIdAndRekvizitId(Long kId, Long rId) {
         return ponudaRepository.findByKorisnikIdAndRekvizitId(kId, rId);
+    }
+
+    public Collection<Ponuda> findByRekvizitId(Long id) {
+        return ponudaRepository.findByRekvizitId(id);
+    }
+
+    public Collection<Ponuda> findByRekvizitIdAndIdNot(Long id, Long idPon) {
+        return ponudaRepository.findByRekvizitIdAndIdNot(id, idPon);
     }
 
 

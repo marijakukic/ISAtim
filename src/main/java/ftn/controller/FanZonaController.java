@@ -1,8 +1,7 @@
 package ftn.controller;
 
-import ftn.model.Kupovina;
-import ftn.model.Ponuda;
-import ftn.model.Rekvizit;
+import ftn.dto.PonudaDTO;
+import ftn.model.*;
 import ftn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -28,6 +29,9 @@ public class FanZonaController {
 
     @Autowired
     private KupovinaService kupovinaService;
+
+    @Autowired
+    private KorisnikService korisnikService;
 
     @RequestMapping(
             value    = "/fanZona/getAllRekvizite/{teatarId}/{stanje}",
@@ -94,6 +98,57 @@ public class FanZonaController {
 
         return new ResponseEntity<>(ponuda, HttpStatus.OK);
     }
+
+    @RequestMapping(
+            value    = "/ponuda/findPonudeByRekvizit/{rekvizitId}",
+            method   = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ArrayList<PonudaDTO>> findPonudeByRekvizit(@PathVariable Long rekvizitId) {
+
+        ArrayList<PonudaDTO> ponudeDTO = new ArrayList<>();
+        Collection<Ponuda> ponude = ponudaService.findByRekvizitId(rekvizitId);
+        for (Ponuda ponuda : ponude) {
+            Korisnik korisnik = korisnikService.findUserDetails(ponuda.getKorisnikId());
+            PonudaDTO ponudaDTO = new PonudaDTO(ponuda.getId(), ponuda.getTeatarId(), korisnik,ponuda.getRekvizitId(), ponuda.getCena(), ponuda.getPoslata(), ponuda.getOdabrana());
+            ponudeDTO.add(ponudaDTO);
+        }
+
+        return new ResponseEntity<>(ponudeDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/ponuda/odaberi",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Ponuda> saveKupovina(@RequestBody PonudaDTO pon) throws MessagingException {
+
+        //pon.setOdabrana(true);
+        Ponuda pnd = new Ponuda();
+        pnd.setId(pon.getId());
+        pnd.setOdabrana(true);
+        pnd.setCena(pon.getCena());
+        pnd.setKorisnikId(pon.getKorisnik().getId());
+        pnd.setRekvizitId(pon.getRekvizitId());
+        pnd.setTeatarId(pon.getTeatarId());
+
+        Ponuda ponuda = ponudaService.save(pnd);
+
+        Korisnik korisnik = korisnikService.findUserDetails(ponuda.getKorisnikId());
+        MailSending.sendMail("boxboux@gmail.com", "Ponuda", "Postovani, Vasa ponuda je prihvacena! Cestitamo!");
+
+        Collection<Ponuda> ponude = ponudaService.findByRekvizitIdAndIdNot(ponuda.getRekvizitId(), ponuda.getId());
+        for (Ponuda p : ponude) {
+            p.setOdabrana(false);
+            Ponuda ppp = ponudaService.save(p);
+            Korisnik k = korisnikService.findUserDetails(ppp.getKorisnikId());
+            MailSending.sendMail("boxboux@gmail.com", "Ponuda", "Postovani, Vasa ponuda nazalost nije prihvacena! :(");
+        }
+
+        return new ResponseEntity<>(ponuda, HttpStatus.OK);
+    }
+
+
 
     @RequestMapping(
             value = "/kupovina/saveKupovina",
