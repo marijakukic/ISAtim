@@ -15,8 +15,8 @@ public class KorisnikService {
 
     public static Korisnik aktivanKorisnik;
 
-    public void save(Korisnik korisnik){
-        korisnikRepository.save(korisnik);
+    public Korisnik save(Korisnik korisnik){
+        return korisnikRepository.save(korisnik);
     }
 
     public Korisnik findByEmail(String email){

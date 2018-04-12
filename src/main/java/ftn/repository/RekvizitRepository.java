@@ -11,4 +11,8 @@ public interface RekvizitRepository extends JpaRepository<Rekvizit, Long>{
 
     Collection<Rekvizit> findByTeatarIdAndStanje(Long teatarId, String stanje);
 
+    Collection<Rekvizit> findByTeatarIdAndStanjeAndKorisnikId(Long teatarId, String stanje, Long korisnikId);
+
+    Collection<Rekvizit> findByTeatarIdAndStanjeAndKorisnikIdNot(Long teatarId, String stanje, Long korisnikId);
+
 }

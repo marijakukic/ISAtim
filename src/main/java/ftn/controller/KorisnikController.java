@@ -55,13 +55,21 @@ public class KorisnikController {
     public ResponseEntity<Korisnik> registration (@RequestBody Korisnik korisnikRequest) throws MessagingException {
         Korisnik korisnik = korisnikRequest;
         korisnikService.save(korisnik);
-        //if(korisnik.getTipKorisnika() == "registrovanKorisnik"){
-            System.out.println("Hajde jano");
-            MailSending.sendMail("boxboux@gmail.com", "Aktivacija", "http://localhost:9000/activate/"+korisnik.getEmail());
-        //}
-        System.out.println("Usla u kontroler");
+
+        MailSending.sendMail("boxboux@gmail.com", "Aktivacija", "http://localhost:9000/activate/"+korisnik.getEmail());
 
         return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/editUser",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Korisnik> editUser(@RequestBody Korisnik korisnikRequest) {
+
+        Korisnik korisnik = korisnikService.save(korisnikRequest);
+        KorisnikService.aktivanKorisnik = korisnik;
+        return new ResponseEntity<>(korisnik,HttpStatus.OK);
     }
 
     @RequestMapping(
