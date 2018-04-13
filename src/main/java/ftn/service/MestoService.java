@@ -11,7 +11,7 @@ public class MestoService {
     @Autowired
     private MestoRepository mestoRepository;
 
-    public Mesto fincOne(Long id) {
+    public Mesto findOne(Long id) {
         return mestoRepository.findOne(id);
     }
 

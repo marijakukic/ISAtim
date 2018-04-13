@@ -1,10 +1,9 @@
 package ftn.service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class DateService {
 
@@ -28,5 +27,30 @@ public class DateService {
             return new SimpleDateFormat("yyyyMMdd").format(date);
         }
     }
+
+    public static int diffInMinutes(String todaysDate, String date, String time) throws ParseException {
+
+        String format = "yyyyMMdd HH:mm";
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+        Date dateObj1 = sdf.parse(todaysDate);
+        Date dateObj2 = sdf.parse(date + " " + time);
+        System.out.println(dateObj1);
+        System.out.println(dateObj2);
+
+        long diff = dateObj2.getTime() - dateObj1.getTime();
+        switch ("M") {
+            case "D":
+                return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            case "H":
+                return (int) TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
+            case "M":
+                return (int) TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS);
+        }
+        return 0;
+
+    }
+
 
 }

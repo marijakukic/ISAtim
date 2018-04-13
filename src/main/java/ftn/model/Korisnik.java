@@ -9,18 +9,24 @@ public class Korisnik implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String ime;
-    public String prezime;
+    private String ime;
+
+    private String prezime;
 
     @Column(unique = true)
-    public String email;
+    private String email;
 
-    public String lozinka;
+    private String lozinka;
 
-    public String mestoStanovanja;
-    public String adresa;
-    public String tipKorisnika;
-    private boolean potvrdjenMail;
+    private String mestoStanovanja;
+
+    private String adresa;
+
+    private String tipKorisnika;
+
+    private Boolean potvrdjenMail;
+
+    private String titula;
 
     public Korisnik() {
     }
@@ -89,11 +95,19 @@ public class Korisnik implements Serializable {
         this.tipKorisnika = tipKorisnika;
     }
 
-    public boolean isPotvrdjenMail() {
+    public Boolean getPotvrdjenMail() {
         return potvrdjenMail;
     }
 
-    public void setPotvrdjenMail(boolean potvrdjenMail) {
+    public void setPotvrdjenMail(Boolean potvrdjenMail) {
         this.potvrdjenMail = potvrdjenMail;
+    }
+
+    public String getTitula() {
+        return titula;
+    }
+
+    public void setTitula(String titula) {
+        this.titula = titula;
     }
 }

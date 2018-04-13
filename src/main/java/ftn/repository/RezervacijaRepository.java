@@ -10,4 +10,6 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> 
 
     Collection<Rezervacija> findByTermin(Termin termin);
 
+    Collection<Rezervacija> findByKorisnikId(Long id);
+
 }

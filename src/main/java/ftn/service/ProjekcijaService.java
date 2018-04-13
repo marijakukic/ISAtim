@@ -31,6 +31,10 @@ public class ProjekcijaService {
         return korisnikList;
     }
 
+    public Projekcija findOne(Long id) {
+        return projekcijaRepository.findOne(id);
+    }
+
     public Collection<Projekcija> findByTeatarIdAndDatum(Long id, String datum) {
         return projekcijaRepository.findByTeatarIdAndDatum(id, datum);
     }
