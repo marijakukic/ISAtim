@@ -3,7 +3,10 @@ package ftn.controller;
 
 import ftn.model.Korisnik;
 import ftn.model.MailSending;
+import ftn.model.SkalaClanstva;
 import ftn.service.PrijateljstvoService;
+import ftn.service.RezervacijaService;
+import ftn.service.SkalaClanstvaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +17,7 @@ import ftn.service.KorisnikService;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -26,6 +30,12 @@ public class KorisnikController {
 
     @Autowired
     private PrijateljstvoService prijateljstvoService;
+
+    @Autowired
+    private SkalaClanstvaService skalaClanstvaService;
+
+    @Autowired
+    private RezervacijaService rezervacijaService;
 
 
     @RequestMapping(
@@ -87,15 +97,15 @@ public class KorisnikController {
             value = "/login/{email:.+}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Korisnik> login(@PathVariable String email){
+    public ResponseEntity<Korisnik> login(@PathVariable String email) throws ParseException {
 
-        System.out.println("Usla u login kontroler");
-        Korisnik korisnik = korisnikService.findByEmail(email);
-
-
-        System.out.println("Aaaaaaaaaa" + korisnik.email + korisnik.lozinka);
-
-        return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
+        Korisnik k = korisnikService.findByEmail(email);
+        // postavi titulu korisnika prije logovanja da bi je mogao koristiti kasnije
+        Integer bodovi = rezervacijaService.bodoviKorisnika(k.getId());
+        k.setTitula(skalaClanstvaService.getTitula(bodovi));
+        Korisnik korisnik = korisnikService.save(k);
+        KorisnikService.aktivanKorisnik = korisnik;
+        return new ResponseEntity<>(korisnik,HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -109,7 +119,7 @@ public class KorisnikController {
         Korisnik korisnik = korisnikService.findUserDetails(userId);
 
 
-        System.out.println("Aaaaaaaaaa" + korisnik.email + korisnik.lozinka);
+        System.out.println("Aaaaaaaaaa" + korisnik.getEmail() + korisnik.getLozinka());
 
         return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
     }
@@ -156,8 +166,27 @@ public class KorisnikController {
         return new ResponseEntity<>(moguciKorisnici,HttpStatus.OK);
     }
 
+    @RequestMapping(
+            value = "/skala/save",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SkalaClanstva> saveSkala(@RequestBody SkalaClanstva skala){
 
+        SkalaClanstva skalaClanstva = skalaClanstvaService.save(skala);
 
+        return new ResponseEntity<>(skalaClanstva,HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/skala/get",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SkalaClanstva> getSkala(){
+
+        SkalaClanstva skalaClanstva = skalaClanstvaService.findOne(1l);
+
+        return new ResponseEntity<>(skalaClanstva,HttpStatus.OK);
+    }
 
 
 }
