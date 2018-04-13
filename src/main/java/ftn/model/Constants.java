@@ -7,4 +7,8 @@ public class Constants {
     public static final String SREBRNI_CLAN = "srebrni";
     public static final String ZLATNI_CLAN = "zlatni";
 
+    public static final String REGISTROVAN_KORISNIK_TIP = "registrovanKorisnik";
+    public static final String SISTEM_ADMIN_TIP = "sistemAdministrator";
+
+
 }

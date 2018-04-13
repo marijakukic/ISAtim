@@ -23,7 +23,11 @@ public class TeatarService {
 
     public Collection<Teatar> getAllBioskop(String tip){
         return teatarRepository.findByTip(tip);
-   }
+    }
+
+    public Collection<Teatar> findByTipAndNaziv(String tip, String naziv) {
+        return teatarRepository.findByTipAndNaziv(tip, naziv);
+    }
 
 
 }

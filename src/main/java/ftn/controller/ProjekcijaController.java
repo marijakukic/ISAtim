@@ -147,7 +147,7 @@ public class ProjekcijaController {
 
 
     @RequestMapping(
-            value = "/rezervacija/otkazi/{id}",
+            value = "/rezervacija/otkazi",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

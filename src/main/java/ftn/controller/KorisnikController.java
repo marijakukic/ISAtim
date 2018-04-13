@@ -109,6 +109,15 @@ public class KorisnikController {
     }
 
     @RequestMapping(
+            value = "/logout",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> logout() throws ParseException {
+        KorisnikService.aktivanKorisnik = null;
+        return new ResponseEntity<>("Odjava",HttpStatus.OK);
+    }
+
+    @RequestMapping(
             value = "/getUserDetails/{userId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -140,16 +149,16 @@ public class KorisnikController {
         }
 
         if (!StringUtils.isEmpty(ime) && !StringUtils.isEmpty(prezime)) {
-            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMeByNameAndSurname(userId, ime, prezime);
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllRegUsersExceptMeByNameAndSurname(userId, ime, prezime);
         }
         else if (!StringUtils.isEmpty(ime) && StringUtils.isEmpty(prezime)) {
-            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMeByName(userId, ime);
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllRegUsersExceptMeByName(userId, ime);
         }
         else if (StringUtils.isEmpty(ime) && !StringUtils.isEmpty(prezime)) {
-            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMeBySurname(userId, prezime);
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllRegUsersExceptMeBySurname(userId, prezime);
         }
         else {
-            korisnici = (ArrayList<Korisnik>) korisnikService.getAllUsersExceptMe(userId);
+            korisnici = (ArrayList<Korisnik>) korisnikService.getAllRegUsersExceptMe(userId);
         }
 
         ArrayList<Korisnik> moguciKorisnici = new ArrayList<>();

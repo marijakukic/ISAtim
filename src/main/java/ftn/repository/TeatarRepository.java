@@ -7,5 +7,7 @@ import java.util.Collection;
 
 public interface TeatarRepository extends JpaRepository<Teatar,Long> {
 
-    public Collection<Teatar> findByTip (String tip);
+    Collection<Teatar> findByTip(String tip);
+
+    Collection<Teatar> findByTipAndNaziv(String tip, String naziv);
 }

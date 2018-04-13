@@ -70,7 +70,21 @@ public class TeatarController {
     public ResponseEntity<Collection<Teatar>> svaPozorista() {
         String tip = "pozoriste";
         Collection<Teatar> pozorista = teatarService.getAllBioskop(tip);
-        return new ResponseEntity<Collection<Teatar>>(pozorista, HttpStatus.OK);
+        return new ResponseEntity<>(pozorista, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value    = "/searchPB/{naziv}/{tip}",
+            method   = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public ResponseEntity<Collection<Teatar>> svaPozoristaSearch(@PathVariable String naziv, @PathVariable String tip) {
+        if ("undefined".equals(naziv)) {
+            return new ResponseEntity<>(teatarService.getAllBioskop(tip), HttpStatus.OK);
+        }
+        Collection<Teatar> pozorista = teatarService.findByTipAndNaziv(tip, naziv);
+        return new ResponseEntity<>(pozorista, HttpStatus.OK);
     }
 
 

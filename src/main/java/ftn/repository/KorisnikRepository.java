@@ -17,12 +17,12 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long>{
     @Query("update Korisnik k set k.potvrdjenMail = ?1 where k.email = ?2")
     Integer setActivatedForKorisnik(Boolean potvrdjenMail, String email);
 
-    Collection<Korisnik> findByIdNot(Long id);
+    Collection<Korisnik> findByIdNotAndTipKorisnika(Long id, String tip);
 
-    Collection<Korisnik> findByIdNotAndIme(Long id, String ime);
+    Collection<Korisnik> findByIdNotAndImeAndTipKorisnika(Long id, String ime, String tip);
 
-    Collection<Korisnik> findByIdNotAndPrezime(Long id, String prezime);
+    Collection<Korisnik> findByIdNotAndPrezimeAndTipKorisnika(Long id, String prezime, String tip);
 
-    Collection<Korisnik> findByIdNotAndImeAndPrezime(Long id, String ime, String prezime);
+    Collection<Korisnik> findByIdNotAndImeAndPrezimeAndTipKorisnika(Long id, String ime, String prezime, String tip);
 
 }

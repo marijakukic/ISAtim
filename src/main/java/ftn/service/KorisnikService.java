@@ -1,5 +1,6 @@
 package ftn.service;
 
+import ftn.model.Constants;
 import ftn.model.Korisnik;
 import org.springframework.beans.factory.annotation.Autowired;
 import ftn.repository.KorisnikRepository;
@@ -34,19 +35,19 @@ public class KorisnikService {
     }
 
 
-    public Collection<Korisnik> getAllUsersExceptMe(Long id) {
-        return korisnikRepository.findByIdNot(id);
+    public Collection<Korisnik> getAllRegUsersExceptMe(Long id) {
+        return korisnikRepository.findByIdNotAndTipKorisnika(id, Constants.REGISTROVAN_KORISNIK_TIP);
     }
 
-    public Collection<Korisnik> getAllUsersExceptMeByName(Long id, String ime) {
-        return korisnikRepository.findByIdNotAndIme(id, ime);
+    public Collection<Korisnik> getAllRegUsersExceptMeByName(Long id, String ime) {
+        return korisnikRepository.findByIdNotAndImeAndTipKorisnika(id, ime, Constants.REGISTROVAN_KORISNIK_TIP);
     }
 
-    public Collection<Korisnik> getAllUsersExceptMeByNameAndSurname(Long id, String ime, String prezime) {
-        return korisnikRepository.findByIdNotAndImeAndPrezime(id, ime, prezime);
+    public Collection<Korisnik> getAllRegUsersExceptMeByNameAndSurname(Long id, String ime, String prezime) {
+        return korisnikRepository.findByIdNotAndImeAndPrezimeAndTipKorisnika(id, ime, prezime, Constants.REGISTROVAN_KORISNIK_TIP);
     }
 
-    public Collection<Korisnik> getAllUsersExceptMeBySurname(Long id, String prezime) {
-        return korisnikRepository.findByIdNotAndPrezime(id, prezime);
+    public Collection<Korisnik> getAllRegUsersExceptMeBySurname(Long id, String prezime) {
+        return korisnikRepository.findByIdNotAndPrezimeAndTipKorisnika(id, prezime, Constants.REGISTROVAN_KORISNIK_TIP);
     }
 }
