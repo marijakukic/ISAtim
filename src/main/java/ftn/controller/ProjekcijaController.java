@@ -47,6 +47,9 @@ public class ProjekcijaController {
     @Autowired
     private TeatarService teatarService;
 
+    @Autowired
+    private FilmService filmService;
+
     @RequestMapping(
             value    = "/projekcija/test",
             method   = RequestMethod.GET,
@@ -233,6 +236,62 @@ public class ProjekcijaController {
         return new ResponseEntity<>(prethodneRezervacije, HttpStatus.OK);
     }
 
+
+    @RequestMapping(
+            value = "/film/save",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Film> saveFilm (@RequestBody Film f){
+
+        Film film = filmService.save(f);
+
+        return new ResponseEntity<>(film, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/film/get/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Film> getFilm (@PathVariable Long id){
+
+        Film film = filmService.findOne(id);
+
+        return new ResponseEntity<>(film, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/film/get/svi",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<Film>> getFilmovi (){
+
+        Collection<Film> film = filmService.findAll();
+
+        return new ResponseEntity<>(film, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/projekcija/save",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Projekcija> saveProjekcija (@RequestBody Projekcija p){
+
+        Projekcija projekcija = projekcijaService.save(p);
+
+        return new ResponseEntity<>(projekcija, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/projekcija/get/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Projekcija> getProjekcija (@PathVariable Long id){
+
+        Projekcija projekcija = projekcijaService.findOne(id);
+        //ProjekcijaDTO projekcijaDTO = new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini());
+
+        return new ResponseEntity<>(projekcija, HttpStatus.OK);
+    }
 
 
 }
