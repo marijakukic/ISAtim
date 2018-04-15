@@ -22,6 +22,14 @@ public class SalaService {
         return salaRepository.save(sala);
     }
 
+    public Sala findOne(Long id) {
+        return salaRepository.findOne(id);
+    }
+
+    public Collection<Sala> findByTeatarId(Long teatarId) {
+        return salaRepository.findByTeatarId(teatarId);
+    }
+
     public Collection<Mesto> getAllSalaSeats(Long salaId) {
         return mestoRepository.findBySalaId(salaId);
     }

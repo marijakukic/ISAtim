@@ -79,6 +79,86 @@ public class ProjekcijaController {
         return new ResponseEntity<>(projekcijeDTO, HttpStatus.OK);
     }
 
+    @RequestMapping(
+            value = "/projekcija/aktivne/teatar/{teatarId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArrayList<ProjekcijaDTO>> getAktivneProjekcijeUTeatru(@PathVariable Long teatarId) throws ParseException {
+
+        String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        ArrayList<Projekcija> projekcije = (ArrayList<Projekcija>) projekcijaService.findByTeatarIdAndDatumGreaterThanEqual(teatarId, today);
+
+        ArrayList<ProjekcijaDTO> projekcijeDTO = new ArrayList<>();
+        for (Projekcija projekcija : projekcije) {
+            projekcijeDTO.add(new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini()));
+        }
+
+        return new ResponseEntity<>(projekcijeDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/projekcija/obrisi/{projekcijaId}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> obrisiProjekciju(@PathVariable Long projekcijaId) throws ParseException {
+
+        String today = new SimpleDateFormat("yyyyMMdd HH:mm").format(new Date());
+        Integer aktivneRezervacije = 0;
+        Projekcija projekcija = projekcijaService.findOne(projekcijaId);
+
+        Collection<Rezervacija> sveRezervacije = rezervacijaService.findByProjekcijaId(projekcijaId);
+        for (Rezervacija r : sveRezervacije) {
+            Termin termin = terminService.findOne(r.getTermin().getId());
+
+            int minutaDoPocetkaRezervacije = DateService.diffInMinutes(today, projekcija.getDatum(), termin.getVreme());
+
+            if (minutaDoPocetkaRezervacije >= 0) {
+                ++aktivneRezervacije;
+            }
+
+        }
+
+        if (aktivneRezervacije == 0) {
+            Collection<Termin> termini = terminService.findByProjekcija(projekcija);
+            for (Termin termin : termini) {
+                terminService.delete(termin);
+            }
+            projekcijaService.delete(projekcija);
+            return new ResponseEntity<>( 1, HttpStatus.OK);     //uspesno obrisana projekcija
+        }
+
+        //nije moguce obrisati projekciju => posalji 0
+        return new ResponseEntity<>( 0, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/projekcija/izmena/omogucena/{projekcijaId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> omogucenaIzmenaProjekcije(@PathVariable Long projekcijaId) throws ParseException {
+
+        String today = new SimpleDateFormat("yyyyMMdd HH:mm").format(new Date());
+        Integer aktivneRezervacije = 0;
+        Projekcija projekcija = projekcijaService.findOne(projekcijaId);
+
+        Collection<Rezervacija> sveRezervacije = rezervacijaService.findByProjekcijaId(projekcijaId);
+        for (Rezervacija r : sveRezervacije) {
+            Termin termin = terminService.findOne(r.getTermin().getId());
+
+            int minutaDoPocetkaRezervacije = DateService.diffInMinutes(today, projekcija.getDatum(), termin.getVreme());
+
+            if (minutaDoPocetkaRezervacije >= 0) {
+                ++aktivneRezervacije;
+            }
+        }
+        if (aktivneRezervacije == 0) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(0, HttpStatus.OK);
+    }
+
 
     @RequestMapping(
             value = "/projekcija/getAllFreeSeats/{teatarId}/{terminId}",
@@ -274,8 +354,11 @@ public class ProjekcijaController {
             value = "/projekcija/save",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Projekcija> saveProjekcija (@RequestBody Projekcija p){
+    public ResponseEntity<Projekcija> saveProjekcija (@RequestBody Projekcija p) throws ParseException {
 
+        if (p.getDatum().length() != 8) {
+            p.setDatum(DateService.getFormattedDateUniversal(p.getDatum()));
+        }
         Projekcija projekcija = projekcijaService.save(p);
 
         return new ResponseEntity<>(projekcija, HttpStatus.OK);
@@ -291,6 +374,33 @@ public class ProjekcijaController {
         //ProjekcijaDTO projekcijaDTO = new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini());
 
         return new ResponseEntity<>(projekcija, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/termin/save/{projekcijaId}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Termin> saveTermin (@RequestBody Termin t, @PathVariable Long projekcijaId){
+
+        Projekcija projekcija = projekcijaService.findOne(projekcijaId);
+        t.setProjekcija(projekcija);
+        Sala sala = salaService.findOne(t.getSalaId());
+        t.setSalaNaziv(sala.getNaziv());
+        Termin termin = terminService.save(t);
+
+        return new ResponseEntity<>(termin, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/termin/obrisi",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> deleteTermin (@RequestBody Termin t){
+
+       terminService.delete(t);
+
+       return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
 

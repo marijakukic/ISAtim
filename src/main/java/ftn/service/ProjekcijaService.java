@@ -35,8 +35,16 @@ public class ProjekcijaService {
         return projekcijaRepository.findOne(id);
     }
 
+    public void delete(Projekcija projekcija) {
+        projekcijaRepository.delete(projekcija);
+    }
+
     public Collection<Projekcija> findByTeatarIdAndDatum(Long id, String datum) {
         return projekcijaRepository.findByTeatarIdAndDatum(id, datum);
+    }
+
+    public Collection<Projekcija> findByTeatarIdAndDatumGreaterThanEqual(Long id, String todaysDate){
+        return projekcijaRepository.findByTeatarIdAndDatumGreaterThanEqual(id, todaysDate);
     }
 
 }

@@ -54,6 +54,10 @@ public class RezervacijaService {
         return rezervacijaRepository.findByKorisnikId(id);
     }
 
+    public Collection<Rezervacija> findByProjekcijaId(Long id) {
+        return rezervacijaRepository.findByProjekcijaId(id);
+    }
+
     public int bodoviKorisnika(Long korisnikId) throws ParseException {
         ArrayList<RezervacijaDTO> prethodneRezervacije = new ArrayList<>();
 

@@ -40,12 +40,20 @@ public class TeatarController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Teatar> registration (@RequestBody Teatar teatarRequest){
 
-        Teatar teatar= teatarRequest;
-        teatarService.save(teatar);
+        Teatar teatar = teatarService.save(teatarRequest);
 
-        System.out.println("Usla u kontroler");
+        return new ResponseEntity<>(teatar, HttpStatus.OK);
+    }
 
-        return new ResponseEntity<Teatar>(HttpStatus.OK);
+    @RequestMapping(
+            value = "/teatar/get/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Teatar> getTeatar (@PathVariable Long id){
+
+        Teatar teatar = teatarService.findOne(id);
+
+        return new ResponseEntity<>(teatar, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -97,6 +105,17 @@ public class TeatarController {
         Sala sala1 = salaService.save(sala);
 
         return new ResponseEntity<Sala>(sala1, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/teatar/getSale/{teatarId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<Sala>> getSaleFromTeatar(@PathVariable Long teatarId){
+
+        Collection<Sala> sale = salaService.findByTeatarId(teatarId);
+
+        return new ResponseEntity<>(sale, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -176,11 +195,6 @@ public class TeatarController {
 
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
-
-
-
-
-
 
 
 }

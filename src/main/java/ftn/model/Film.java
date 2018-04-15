@@ -1,10 +1,8 @@
 package ftn.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 
 @Entity
 public class Film implements Serializable {
@@ -28,6 +26,8 @@ public class Film implements Serializable {
     private Double prosecnaOcena;
 
     private String kratakOpis;
+
+    private String tip;
 
     public Film() {
     }
@@ -102,5 +102,13 @@ public class Film implements Serializable {
 
     public void setKratakOpis(String kratakOpis) {
         this.kratakOpis = kratakOpis;
+    }
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
     }
 }

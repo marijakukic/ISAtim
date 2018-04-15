@@ -13,8 +13,8 @@ public class TeatarService {
     @Autowired
     private TeatarRepository teatarRepository;
 
-    public void save(Teatar teatar){
-        teatarRepository.save(teatar);
+    public Teatar save(Teatar teatar){
+        return teatarRepository.save(teatar);
     }
 
     public Teatar findOne(Long id){

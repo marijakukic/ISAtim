@@ -12,4 +12,6 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> 
 
     Collection<Rezervacija> findByKorisnikId(Long id);
 
+    Collection<Rezervacija> findByProjekcijaId(Long id);
+
 }
