@@ -22,12 +22,20 @@ public class RekvizitService {
         return rekvizitRepository.save(rekvizit);
     }
 
+    public void delete(Rekvizit rekvizit) {
+        rekvizitRepository.delete(rekvizit);
+    }
+
     public Collection<Rekvizit> findByTeatarId(Long teatarId){
         return rekvizitRepository.findByTeatarId(teatarId);
     }
 
-    public Collection<Rekvizit> findByTeatarIdAndStanjeAndKorisnikIdNot(Long teatarId, String stanje, Long korisnikId) {
-        return rekvizitRepository.findByTeatarIdAndStanjeAndKorisnikIdNot(teatarId, stanje, korisnikId);
+    public Collection<Rekvizit> findByTeatarIdAndStanjeAndKorisnikIdNotAndOdobren(Long teatarId, String stanje, Long korisnikId, Boolean odobren) {
+        return rekvizitRepository.findByTeatarIdAndStanjeAndKorisnikIdNotAndOdobren(teatarId, stanje, korisnikId, odobren);
+    }
+
+    public Collection<Rekvizit> findByTeatarIdAndStanjeAndOdobren(Long teatarId, String stanje, Boolean odobren) {
+        return rekvizitRepository.findByTeatarIdAndStanjeAndOdobren(teatarId, stanje,odobren);
     }
 
     public Collection<Rekvizit> findByTeatarIdAndStanjeAndKorisnikId(Long teatarId, String stanje, Long korisnikId) {

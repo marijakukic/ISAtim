@@ -42,11 +42,25 @@ public class FanZonaController {
         Collection<Rekvizit> rekviziti = null;
         Long korisnikId = KorisnikService.aktivanKorisnik.getId();
         if ("polovan".equals(stanje)) {
-            rekviziti = rekvizitService.findByTeatarIdAndStanjeAndKorisnikIdNot(teatarId, stanje, korisnikId);
+            rekviziti = rekvizitService.findByTeatarIdAndStanjeAndKorisnikIdNotAndOdobren(teatarId, stanje, korisnikId, true);
         }
         else {
             rekviziti = rekvizitService.findByTeatarIdAndStanje(teatarId, stanje);
         }
+
+        return new ResponseEntity<>(rekviziti, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value    = "/fanZona/getAllRekviziteZaOdobravanje/{teatarId}",
+            method   = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Collection<Rekvizit>> getAllRekviziteZaOdobravanje(@PathVariable Long teatarId) {
+
+        Long korisnikId = KorisnikService.aktivanKorisnik.getId();
+
+        Collection<Rekvizit> rekviziti = rekvizitService.findByTeatarIdAndStanjeAndOdobren(teatarId, "polovan", false);
 
         return new ResponseEntity<>(rekviziti, HttpStatus.OK);
     }
@@ -167,11 +181,44 @@ public class FanZonaController {
             value = "/rekvizit/saveRekvizit",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Rekvizit> saveRekvizit(@RequestBody Rekvizit rek) throws ParseException {
+    public ResponseEntity<Rekvizit> saveRekvizit(@RequestBody Rekvizit rek){
+
+        Rekvizit rekvizit = rekvizitService.save(rek);
+        return new ResponseEntity<>(rekvizit, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/rekvizit/saveOglas",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Rekvizit> saveOglas(@RequestBody Rekvizit rek) throws ParseException {
 
         rek.setDatum(DateService.getFormattedDateUniversal(rek.getDatum()));
         Rekvizit rekvizit = rekvizitService.save(rek);
         return new ResponseEntity<>(rekvizit, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/rekvizit/odobri",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Rekvizit> odobri(@RequestBody Rekvizit rek){
+
+        rek.setOdobren(true);
+        Rekvizit rekvizit = rekvizitService.save(rek);
+        return new ResponseEntity<>(rekvizit, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/rekvizit/ponisti",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> ponisti(@RequestBody Rekvizit rek){
+
+        rekvizitService.delete(rek);
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
 }

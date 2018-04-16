@@ -29,6 +29,8 @@ public class Rekvizit implements Serializable {
 
     private Long korisnikId;
 
+    private Boolean odobren;
+
     public Rekvizit() {
 
     }
@@ -103,5 +105,13 @@ public class Rekvizit implements Serializable {
 
     public void setKorisnikId(Long korisnikId) {
         this.korisnikId = korisnikId;
+    }
+
+    public Boolean getOdobren() {
+        return odobren;
+    }
+
+    public void setOdobren(Boolean odobren) {
+        this.odobren = odobren;
     }
 }

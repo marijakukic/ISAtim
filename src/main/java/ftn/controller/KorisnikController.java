@@ -197,5 +197,21 @@ public class KorisnikController {
         return new ResponseEntity<>(skalaClanstva,HttpStatus.OK);
     }
 
+    @RequestMapping(
+            value = "/korisnik/prvaPromenaLozinke/{staraLozinka}/{novaLozinka}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> prvaPromenaLozinke(@PathVariable String staraLozinka, @PathVariable String novaLozinka){
+
+        String staraLoz = KorisnikService.aktivanKorisnik.getLozinka();
+        if (staraLoz.equals(staraLozinka)) {
+            KorisnikService.aktivanKorisnik.setLozinka(novaLozinka);
+            korisnikService.save(KorisnikService.aktivanKorisnik);
+            return new ResponseEntity<>(1,HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(0,HttpStatus.OK);
+    }
+
 
 }
