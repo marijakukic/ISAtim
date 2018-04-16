@@ -215,6 +215,75 @@ public class ProjekcijaController {
         return new ResponseEntity<>(savedRezervacija, HttpStatus.OK);
     }
 
+
+    @RequestMapping(
+            value = "/rezervacija/saveKartaSaPopustom/{terminId}/{mestoId}/{cenaSaPopustom}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Rezervacija> saveKartaSaPopustom(@PathVariable Long terminId, @PathVariable Long mestoId, @PathVariable Double cenaSaPopustom){
+
+        Termin termin = terminService.findOne(terminId);
+        Mesto mesto = mestoService.findOne(mestoId);
+        Rezervacija rezervacija = new Rezervacija();
+        rezervacija.setTermin(termin);
+        rezervacija.setMesto(mesto);
+        rezervacija.setKorisnikId(null);
+        rezervacija.setProjekcijaId(termin.getProjekcija().getId());
+        rezervacija.setTeatarId(termin.getProjekcija().getTeatarId());
+        rezervacija.setCenaSaPopustom(cenaSaPopustom);
+
+        Rezervacija savedRezervacija = rezervacijaService.save(rezervacija);
+
+        return new ResponseEntity<>(savedRezervacija, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/rezervacija/oneClick/{rezervacijaId}/{korisnikId}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Rezervacija> oneClick(@PathVariable Long rezervacijaId, @PathVariable Long korisnikId){
+
+        Rezervacija r = rezervacijaService.findOne(rezervacijaId);
+        r.setKorisnikId(korisnikId);
+        Rezervacija rezervacija = rezervacijaService.save(r);
+
+        return new ResponseEntity<>(rezervacija, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/rezervacija/getKarteSaPopustom/{teatarId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArrayList<RezervacijaDTO>> getKarteSaPopustom(@PathVariable Long teatarId) throws ParseException {
+
+        ArrayList<RezervacijaDTO> prethodneRezervacije = new ArrayList<>();
+
+        String today = new SimpleDateFormat("yyyyMMdd HH:mm").format(new Date());
+
+        Collection<Rezervacija> sveRezervacije = rezervacijaService.findByKorisnikIdIsNull();
+        for (Rezervacija r : sveRezervacije) {
+            Teatar teatar = teatarService.findOne(r.getTeatarId());
+            Projekcija projekcija = projekcijaService.findOne(r.getProjekcijaId());
+            ProjekcijaDTO projekcijaDTO = new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini());
+            Termin termin = terminService.findOne(r.getTermin().getId());
+            Mesto mesto = mestoService.findOne(r.getMesto().getId());
+            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, KorisnikService.aktivanKorisnik.getId(), r.getCenaSaPopustom());
+
+            int minutaDoPocetkaRezervacije = DateService.diffInMinutes(today, projekcija.getDatum(), termin.getVreme());
+
+            if (minutaDoPocetkaRezervacije >= 0) {
+                prethodneRezervacije.add(rDTO);
+            }
+
+        }
+
+        return new ResponseEntity<>(prethodneRezervacije, HttpStatus.OK);
+    }
+
+
+
+
     @RequestMapping(
             value = "/rezervacija/otkaziRezervaciju/{id}",
             method = RequestMethod.GET,
@@ -271,7 +340,7 @@ public class ProjekcijaController {
             ProjekcijaDTO projekcijaDTO = new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini());
             Termin termin = terminService.findOne(r.getTermin().getId());
             Mesto mesto = mestoService.findOne(r.getMesto().getId());
-            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, KorisnikService.aktivanKorisnik.getId());
+            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, KorisnikService.aktivanKorisnik.getId(), r.getCenaSaPopustom());
 
             int minutaDoPocetkaRezervacije = DateService.diffInMinutes(today, projekcija.getDatum(), termin.getVreme());
 
@@ -303,7 +372,7 @@ public class ProjekcijaController {
             ProjekcijaDTO projekcijaDTO = new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini());
             Termin termin = terminService.findOne(r.getTermin().getId());
             Mesto mesto = mestoService.findOne(r.getMesto().getId());
-            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, KorisnikService.aktivanKorisnik.getId());
+            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, KorisnikService.aktivanKorisnik.getId(), r.getCenaSaPopustom());
 
             int minutaDoPocetkaRezervacije = DateService.diffInMinutes(today, projekcija.getDatum(), termin.getVreme());
 

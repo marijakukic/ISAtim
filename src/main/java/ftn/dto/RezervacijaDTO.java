@@ -18,17 +18,20 @@ public class RezervacijaDTO {
 
     private Long korisnikId;
 
+    private Double cenaSaPopustom;
+
     public RezervacijaDTO() {
 
     }
 
-    public RezervacijaDTO(Long id, Teatar teatar, ProjekcijaDTO projekcija, Termin termin, Mesto mesto, Long korisnikId) {
+    public RezervacijaDTO(Long id, Teatar teatar, ProjekcijaDTO projekcija, Termin termin, Mesto mesto, Long korisnikId, Double cenaSaPopustom) {
         this.id = id;
         this.teatar = teatar;
         this.projekcija = projekcija;
         this.termin = termin;
         this.mesto = mesto;
         this.korisnikId = korisnikId;
+        this.cenaSaPopustom = cenaSaPopustom;
     }
 
     public Long getId() {
@@ -77,5 +80,13 @@ public class RezervacijaDTO {
 
     public void setKorisnikId(Long korisnikId) {
         this.korisnikId = korisnikId;
+    }
+
+    public Double getCenaSaPopustom() {
+        return cenaSaPopustom;
+    }
+
+    public void setCenaSaPopustom(Double cenaSaPopustom) {
+        this.cenaSaPopustom = cenaSaPopustom;
     }
 }

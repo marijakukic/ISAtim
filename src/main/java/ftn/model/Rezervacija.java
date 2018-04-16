@@ -22,6 +22,8 @@ public class Rezervacija implements Serializable {
 
     private Long korisnikId;
 
+    private Double cenaSaPopustom;
+
     public Rezervacija() {
 
     }
@@ -72,5 +74,13 @@ public class Rezervacija implements Serializable {
 
     public void setKorisnikId(Long korisnikId) {
         this.korisnikId = korisnikId;
+    }
+
+    public Double getCenaSaPopustom() {
+        return cenaSaPopustom;
+    }
+
+    public void setCenaSaPopustom(Double cenaSaPopustom) {
+        this.cenaSaPopustom = cenaSaPopustom;
     }
 }

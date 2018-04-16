@@ -54,6 +54,10 @@ public class RezervacijaService {
         return rezervacijaRepository.findByKorisnikId(id);
     }
 
+    public Collection<Rezervacija> findByKorisnikIdIsNull() {
+        return rezervacijaRepository.findByKorisnikIdIsNull();
+    }
+
     public Collection<Rezervacija> findByProjekcijaId(Long id) {
         return rezervacijaRepository.findByProjekcijaId(id);
     }
@@ -70,7 +74,7 @@ public class RezervacijaService {
             ProjekcijaDTO projekcijaDTO = new ProjekcijaDTO(projekcija.getId(), projekcija.getTeatarId(), projekcija.getFilm(), projekcija.getDatum(), projekcija.getTermini());
             Termin termin = terminRepository.findOne(r.getTermin().getId());
             Mesto mesto = mestoRepository.findOne(r.getMesto().getId());
-            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, korisnikId);
+            RezervacijaDTO rDTO = new RezervacijaDTO(r.getId(), teatar, projekcijaDTO, termin, mesto, korisnikId, r.getCenaSaPopustom());
 
             int minutaDoPocetkaRezervacije = DateService.diffInMinutes(today, projekcija.getDatum(), termin.getVreme());
 
