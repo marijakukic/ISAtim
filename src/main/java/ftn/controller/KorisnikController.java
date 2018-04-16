@@ -206,6 +206,7 @@ public class KorisnikController {
         String staraLoz = KorisnikService.aktivanKorisnik.getLozinka();
         if (staraLoz.equals(staraLozinka)) {
             KorisnikService.aktivanKorisnik.setLozinka(novaLozinka);
+            KorisnikService.aktivanKorisnik.setPromenjenaLozinka(true);
             korisnikService.save(KorisnikService.aktivanKorisnik);
             return new ResponseEntity<>(1,HttpStatus.OK);
         }

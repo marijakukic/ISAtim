@@ -28,6 +28,8 @@ public class Korisnik implements Serializable {
 
     private String titula;
 
+    private Boolean promenjenaLozinka;
+
     public Korisnik() {
     }
 
@@ -109,5 +111,13 @@ public class Korisnik implements Serializable {
 
     public void setTitula(String titula) {
         this.titula = titula;
+    }
+
+    public Boolean getPromenjenaLozinka() {
+        return promenjenaLozinka;
+    }
+
+    public void setPromenjenaLozinka(Boolean promenjenaLozinka) {
+        this.promenjenaLozinka = promenjenaLozinka;
     }
 }

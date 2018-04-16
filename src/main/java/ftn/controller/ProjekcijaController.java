@@ -205,10 +205,10 @@ public class ProjekcijaController {
         Korisnik korisnik = korisnikService.findUserDetails(savedRezervacija.getKorisnikId());
         Teatar teatar = teatarService.findOne(savedRezervacija.getTeatarId());
         if (poziv) {
-            MailSending.sendMail("boxboux@gmail.com", "Otkazivanje rezervacije", "http://localhost:9000/rezervacija/otkaziRezervaciju/"+savedRezervacija.getId());
+            MailSending.sendMail(korisnik.getEmail(), "Otkazivanje rezervacije", "http://localhost:9000/rezervacija/otkaziRezervaciju/"+savedRezervacija.getId());
         }
         else {
-            MailSending.sendMail("boxboux@gmail.com", "Informacije o rezervaciji", "Rezervisali ste mesto: " + savedRezervacija.getMesto().getNaziv() + " u " + teatar.getNaziv() );
+            MailSending.sendMail(korisnik.getEmail(), "Informacije o rezervaciji", "Rezervisali ste mesto: " + savedRezervacija.getMesto().getNaziv() + " u " + teatar.getNaziv() );
 
         }
 
