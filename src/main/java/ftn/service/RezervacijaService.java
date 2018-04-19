@@ -7,6 +7,7 @@ import ftn.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class RezervacijaService {
     @Autowired
     private SkalaClanstvaRepository skalaClanstvaRepository;
 
+    @Transactional
     public Rezervacija save(Rezervacija rezervacija) {
         return rezervacijaRepository.save(rezervacija);
     }

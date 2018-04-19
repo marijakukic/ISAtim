@@ -31,6 +31,8 @@ public class Rekvizit implements Serializable {
 
     private Boolean odobren;
 
+    private Boolean zavrsenaLicitacija;
+
     public Rekvizit() {
 
     }
@@ -113,5 +115,13 @@ public class Rekvizit implements Serializable {
 
     public void setOdobren(Boolean odobren) {
         this.odobren = odobren;
+    }
+
+    public Boolean getZavrsenaLicitacija() {
+        return zavrsenaLicitacija;
+    }
+
+    public void setZavrsenaLicitacija(Boolean zavrsenaLicitacija) {
+        this.zavrsenaLicitacija = zavrsenaLicitacija;
     }
 }

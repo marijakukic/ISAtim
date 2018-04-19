@@ -66,7 +66,7 @@ public class KorisnikController {
         Korisnik korisnik = korisnikRequest;
         korisnikService.save(korisnik);
 
-        MailSending.sendMail("boxboux@gmail.com", "Aktivacija", "http://localhost:9000/activate/"+korisnik.getEmail());
+        MailSending.sendMail(korisnik.getEmail(), "Aktivacija", "http://localhost:9000/activate/"+korisnik.getEmail());
 
         return new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
     }

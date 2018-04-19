@@ -35,7 +35,7 @@ public class PrijateljstvoController {
         ArrayList<PrijateljstvoDTO> listaPrijateljaDTO = new ArrayList<PrijateljstvoDTO>();
         for (Prijateljstvo prijateljstvo : listaPrijatelja) {
             Korisnik receiver = korisnikService.findUserDetails(prijateljstvo.getIdKorisnik2());
-            PrijateljstvoDTO prijateljstvoDTO = new PrijateljstvoDTO(receiver, prijateljstvo.getPrijatelji());
+            PrijateljstvoDTO prijateljstvoDTO = new PrijateljstvoDTO(receiver, prijateljstvo.getPrijatelji(), prijateljstvo.getZahtevPoslao());
             listaPrijateljaDTO.add(prijateljstvoDTO);
         }
 

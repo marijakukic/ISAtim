@@ -6,13 +6,15 @@ public class PrijateljstvoDTO {
 
     private Korisnik receiver;
     private Boolean prijatelji;
+    private Long zahtevPoslao;
 
     public PrijateljstvoDTO() {
     }
 
-    public PrijateljstvoDTO(Korisnik receiver, Boolean prijatelji) {
+    public PrijateljstvoDTO(Korisnik receiver, Boolean prijatelji, Long zahtevPoslao) {
         this.receiver = receiver;
         this.prijatelji = prijatelji;
+        this.zahtevPoslao = zahtevPoslao;
     }
 
 
@@ -30,5 +32,13 @@ public class PrijateljstvoDTO {
 
     public void setPrijatelji(Boolean prijatelji) {
         this.prijatelji = prijatelji;
+    }
+
+    public Long getZahtevPoslao() {
+        return zahtevPoslao;
+    }
+
+    public void setZahtevPoslao(Long zahtevPoslao) {
+        this.zahtevPoslao = zahtevPoslao;
     }
 }

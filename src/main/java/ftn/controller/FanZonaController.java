@@ -148,6 +148,9 @@ public class FanZonaController {
 
         Ponuda ponuda = ponudaService.save(pnd);
 
+        Rekvizit rekvizit = rekvizitService.findOne(ponuda.getRekvizitId());
+        rekvizit.setZavrsenaLicitacija(true);
+
         Korisnik korisnik = korisnikService.findUserDetails(ponuda.getKorisnikId());
         MailSending.sendMail("boxboux@gmail.com", "Ponuda", "Postovani, Vasa ponuda je prihvacena! Cestitamo!");
 
@@ -195,6 +198,7 @@ public class FanZonaController {
     public ResponseEntity<Rekvizit> saveOglas(@RequestBody Rekvizit rek) throws ParseException {
 
         rek.setDatum(DateService.getFormattedDateUniversal(rek.getDatum()));
+        rek.setZavrsenaLicitacija(false);
         Rekvizit rekvizit = rekvizitService.save(rek);
         return new ResponseEntity<>(rekvizit, HttpStatus.OK);
     }
