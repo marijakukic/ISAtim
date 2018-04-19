@@ -1,11 +1,13 @@
 package ftn.service;
 
-import ftn.model.Prijateljstvo;
-import ftn.repository.PrijateljstvoRepository;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import ftn.model.Prijateljstvo;
+import ftn.repository.PrijateljstvoRepository;
 
 @Service
 public class PrijateljstvoService  {
@@ -31,5 +33,9 @@ public class PrijateljstvoService  {
 
     public Collection<Prijateljstvo> vecPrijatelji(Long sender, Long receiver) {
         return prijateljstvoRepository.findByIdKorisnik1AndIdKorisnik2AndPoslatZahtev(sender, receiver, true);
+    }
+    
+    public List<Prijateljstvo> findAll(){
+    	return prijateljstvoRepository.findAll();
     }
 }

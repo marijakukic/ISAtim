@@ -1,13 +1,15 @@
 package ftn.service;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ftn.model.Mesto;
 import ftn.model.Sala;
 import ftn.repository.MestoRepository;
 import ftn.repository.SalaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Service
 public class SalaService {
@@ -32,6 +34,10 @@ public class SalaService {
 
     public Collection<Mesto> getAllSalaSeats(Long salaId) {
         return mestoRepository.findBySalaId(salaId);
+    }
+    
+    public List<Sala> findAll(){
+    	return salaRepository.findAll();
     }
 
 }

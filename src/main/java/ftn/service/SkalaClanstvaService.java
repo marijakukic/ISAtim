@@ -1,8 +1,12 @@
 package ftn.service;
 
 import ftn.model.Constants;
+import ftn.model.Segment;
 import ftn.model.SkalaClanstva;
 import ftn.repository.SkalaClanstvaRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +44,10 @@ public class SkalaClanstvaService {
             return Constants.NOVI_CLAN;
         }
 
+    }
+    
+    public List<SkalaClanstva> findAll(){
+    	return skalaClanstvaRepository.findAll();
     }
 
 

@@ -1,16 +1,18 @@
 package ftn.service;
 
-import ftn.model.Korisnik;
-import ftn.model.Projekcija;
-import ftn.repository.ProjekcijaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Collection;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ftn.model.Korisnik;
+import ftn.model.Projekcija;
+import ftn.repository.ProjekcijaRepository;
 
 @Service
 public class ProjekcijaService {
@@ -45,6 +47,10 @@ public class ProjekcijaService {
 
     public Collection<Projekcija> findByTeatarIdAndDatumGreaterThanEqual(Long id, String todaysDate){
         return projekcijaRepository.findByTeatarIdAndDatumGreaterThanEqual(id, todaysDate);
+    }
+    
+    public List<Projekcija> findAll(){
+    	return projekcijaRepository.findAll();
     }
 
 }

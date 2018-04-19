@@ -1,11 +1,13 @@
 package ftn.service;
 
+import ftn.model.Segment;
 import ftn.model.Teatar;
 import ftn.repository.TeatarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class TeatarService {
@@ -29,5 +31,8 @@ public class TeatarService {
         return teatarRepository.findByTipAndNaziv(tip, naziv);
     }
 
+    public List<Teatar> findAll(){
+    	return teatarRepository.findAll();
+    }
 
 }

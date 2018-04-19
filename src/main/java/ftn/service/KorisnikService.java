@@ -1,12 +1,14 @@
 package ftn.service;
 
-import ftn.model.Constants;
-import ftn.model.Korisnik;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import ftn.repository.KorisnikRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import ftn.model.Constants;
+import ftn.model.Korisnik;
+import ftn.repository.KorisnikRepository;
 
 @Service
 public class KorisnikService {
@@ -49,5 +51,9 @@ public class KorisnikService {
 
     public Collection<Korisnik> getAllRegUsersExceptMeBySurname(Long id, String prezime) {
         return korisnikRepository.findByIdNotAndPrezimeAndTipKorisnika(id, prezime, Constants.REGISTROVAN_KORISNIK_TIP);
+    }
+    
+    public List<Korisnik> findAll(){
+    	return korisnikRepository.findAll();
     }
 }

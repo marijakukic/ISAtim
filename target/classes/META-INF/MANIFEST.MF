@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: isa
+Implementation-Version: 1.0-SNAPSHOT
+Built-By: Marija Kukic
+Implementation-Vendor-Id: ftn
+Build-Jdk: 1.8.0_121
+Implementation-URL: http://projects.spring.io/spring-boot/isa/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

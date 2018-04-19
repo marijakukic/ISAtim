@@ -1,12 +1,14 @@
 package ftn.service;
 
 import ftn.model.Projekcija;
+import ftn.model.Teatar;
 import ftn.model.Termin;
 import ftn.repository.TerminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class TerminService {
@@ -32,5 +34,9 @@ public class TerminService {
 
     public Collection<Termin> findByProjekcija(Projekcija projekcija) {
         return terminRepository.findByProjekcija(projekcija);
+    }
+    
+    public List<Termin> findAll(){
+    	return terminRepository.findAll();
     }
 }

@@ -1,18 +1,31 @@
 package ftn.service;
 
-import ftn.dto.ProjekcijaDTO;
-import ftn.dto.RezervacijaDTO;
-import ftn.model.*;
-import ftn.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ftn.dto.ProjekcijaDTO;
+import ftn.dto.RezervacijaDTO;
+import ftn.model.Mesto;
+import ftn.model.Projekcija;
+import ftn.model.Rezervacija;
+import ftn.model.SkalaClanstva;
+import ftn.model.Teatar;
+import ftn.model.Termin;
+import ftn.repository.MestoRepository;
+import ftn.repository.ProjekcijaRepository;
+import ftn.repository.RezervacijaRepository;
+import ftn.repository.SkalaClanstvaRepository;
+import ftn.repository.TeatarRepository;
+import ftn.repository.TerminRepository;
 
 @Service
 public class RezervacijaService {
@@ -89,6 +102,10 @@ public class RezervacijaService {
         SkalaClanstva skalaClanstva = skalaClanstvaRepository.findOne(1l);
 
         return prethodneRezervacije.size() * skalaClanstva.getBodoviZaPosetu();
+    }
+    
+    public List<Rezervacija> findAll(){
+    	return rezervacijaRepository.findAll();
     }
 
 

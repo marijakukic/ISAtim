@@ -1,11 +1,13 @@
 package ftn.service;
 
-import ftn.model.Segment;
-import ftn.repository.SegmentRepository;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import ftn.model.Segment;
+import ftn.repository.SegmentRepository;
 
 @Service
 public class SegmentService {
@@ -23,6 +25,10 @@ public class SegmentService {
 
     public Collection<Segment> findBySalaId(Long salaId) {
         return segmentRepository.findBySalaId(salaId);
+    }
+    
+    public List<Segment> findAll(){
+    	return segmentRepository.findAll();
     }
 
 }

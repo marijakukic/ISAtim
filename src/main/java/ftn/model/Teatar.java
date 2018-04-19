@@ -18,7 +18,7 @@ public class Teatar implements Serializable {
     public String promotivniOpis;
     public String tip;
 
-    Teatar(){
+    public Teatar(){
 
     }
 
